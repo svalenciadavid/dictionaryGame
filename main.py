@@ -1,15 +1,9 @@
 import os
-
-from google.appengine.ext import ndb
-
 import jinja2
 import webapp2
-
 from google.appengine.api import users
-
-
-def root_parent():
-    return ndb.Key('Parent', 'default_parent')
+from google.appengine.ext import ndb
+import data_classes
 
 class MainPage(webapp2.RequestHandler):
     def get(self):

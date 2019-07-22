@@ -7,6 +7,9 @@ import webapp2
 
 from google.appengine.api import users
 
+def root_parent():
+    return ndb.Key('Parent', 'default_parent')
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],

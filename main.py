@@ -9,3 +9,11 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+
+app = webapp2.WSGIApplication([
+    ('/', MainPage),
+    ('/login', DogPage),
+    ('/home', CatPage),
+    ('/host', DeleteDogs),
+    ('/player', DeleteCats)
+], debug=True)

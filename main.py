@@ -12,8 +12,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/login', DogPage),
-    ('/home', CatPage),
-    ('/host', DeleteDogs),
-    ('/player', DeleteCats)
+    ('/login', LoginPage),
+    ('/home', HomePage),
+    ('/host', HostPage),
+    ('/player', PlayerPage)
 ], debug=True)

@@ -7,6 +7,10 @@ import webapp2
 
 from google.appengine.api import users
 
+
+def root_parent():
+    return ndb.Key('Parent', 'default_parent')
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')

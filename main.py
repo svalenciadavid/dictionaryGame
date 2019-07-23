@@ -28,6 +28,11 @@ class LoginPage(webapp2.RequestHandler):
         self.response.write(template.render(data))
 
 
+class HostPage(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render())
 
 
 
@@ -40,6 +45,6 @@ class LoginPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
     #('/main', MainPage),
-    #('/host', HostPage),
+    ('/host', HostPage),
     #('/player', PlayerPage)
 ], debug=True)

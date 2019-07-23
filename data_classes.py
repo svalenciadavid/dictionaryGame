@@ -4,13 +4,18 @@ def root_parent():
     return ndb.Key('Parent', 'default_parent')
 
 class User_data(ndb.Model):
+    user = ndb.UserProperty()
     name = ndb.StringProperty()
-    wins = ndb.StringProperty()
+    wins = ndb.IntegerProperty()
+#games
 
 class Game_state(ndb.Model):
     word = ndb.StringProperty()
     definition = ndb.StringProperty()
+    fake_definition = ndb.StringProperty()
 
 class Players(ndb.Model):
     name = ndb.StringProperty()
     score = ndb.IntegerProperty()
+    #role
+    gameId = ndb.KeyProperty()

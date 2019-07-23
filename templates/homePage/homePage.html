@@ -6,25 +6,26 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Fictionary Home</title>
   </head>
   <body>
+    <div class="bg"></div>
     <h3>Welcome, {{user.email()}}</h3>
     <div>
         <h5>Start the game once all players are present.</h5>
-      <div>
+      </div>
         <!-- <a href=''
         <button id="say">Start Game!</button> -->
-        <a href="HostPage" class="btn btn-lg btn-default">Start Game!</a>
+        <div>
+        <a href="host" class="btn btn-lg btn-default">Start Game!</a>
       </div>
+      <div>
+    <h2> Points: "{{user.points}}" </h2>
+    <h2> Number of Wins: "{{user.points}}" </h2>
     </div>
     <a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a>
-  </body>
-</html>
-
-
 <!--This is for Bootstrap Coverpage -->
-<link rel = "stylesheet" href = "/css/homePage.css">
+<link rel = "stylesheet" href = "/css/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>

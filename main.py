@@ -32,6 +32,16 @@ def check_in_Database(current_user):
         new_user_data.wins = 0
         new_user_data.put()
 
+def getRandomWords():
+    headers = {"X-Mashape-Key": api_key.rapidapi_key,
+        "Accept": "application/json"}
+    result = urlfetch.fetch(
+        url = "https://wordsapiv1.p.rapidapi.com/words/?random=true" ,
+        # url='https://wordsapiv1.p.rapidapi.com/words/?random=true',
+        headers=headers).content
+    randomwords_json = json.loads(result)
+    return randomwords_json
+
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):
@@ -48,24 +58,21 @@ class LoginPage(webapp2.RequestHandler):
         elif not user:
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render(data))
-        word_json = getRandomWords()
-        while "results" not in word_json or "definition" not in word_json["results"][0]:
-            word_json = getRandomWords()
+        # self.response.write(template.render(data))
+        index_template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
+        if ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
+            values = {
+                'words': getRandomWords(),
+                }
+            self.response.write(index_template.render(values))
 
-        print word_json
+        # while "results" not in word_json or "definition" not in word_json["results"][0]:
+        #     word_json = getRandomWords()
+        #
+        # print word_json
 
 
 # API stuff- Fantah put under game page handler
-def getRandomWords():
-    headers = {"X-Mashape-Key": api_key.rapidapi_key,
-        "Accept": "application/json"}
-    result = urlfetch.fetch(
-        url = "https://wordsapiv1.p.rapidapi.com/words/?random=true" ,
-        # url='https://wordsapiv1.p.rapidapi.com/words/?random=true',
-        headers=headers).content
-    randomwords_json = json.loads(result)
-    return randomwords_json
 
 
 

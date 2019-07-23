@@ -4,6 +4,7 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import data_classes
+#import json
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):
@@ -21,13 +22,19 @@ class LoginPage(webapp2.RequestHandler):
         }
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
+#class HomePage(webapp2.RequestHandler):
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+#def get_random_words(num):
+    #random_url = 'https://wordsapiv1.p.mashape.com/words?random=true'
+    #random_resp = urlfetch.Fetch(random_url).content
+    #return json.loads(random_resp)
 
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
+    #('/home', HomePage),
     #('/host', HostPage),
     #('/player', PlayerPage)
 ], debug=True)

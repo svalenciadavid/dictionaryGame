@@ -9,8 +9,6 @@ class User_data(ndb.Model):
     wins = ndb.IntegerProperty()
     role = ndb.StringProperty()
 
-
-
 #games
 class Game_state(ndb.Model):
     word = ndb.StringProperty()
@@ -19,5 +17,5 @@ class Game_state(ndb.Model):
 
 class Players(ndb.Model):
     name = ndb.StringProperty()
-    score = ndb.IntegerProperty()
-    gameId = ndb.KeyProperty()
+    score = ndb.IntegerProperty(default = 0)
+    gameKey = ndb.KeyProperty()

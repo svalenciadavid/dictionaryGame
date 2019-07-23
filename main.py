@@ -14,16 +14,17 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-class addUser():
-    def post():
-        new_user_data = User_data(parent=root_parent())
-        new_user_data.user = users.get_current_user()
-        new_user_data.name = users.get_current_user().email()
-        new_user.wins = 0
-        new_user.put()
+#TEST
+class AddGameState(webapp2.RequestHandler):
+    def post(self):
+        new_game_state = Game_state(parent=root_parent())
+        new_game_state.word = "foo"
+        new_game_state.definition = "a fooer"
+        new_game_state.fake_definition = ""
+        self.redirect("/host"+"?gameID="+new_game_state.put().urlsafe())
 
 
-def check_in_Database(current_user):
+def add_to_Database(current_user):
     user = User_data.query(User_data.user == current_user, ancestor=root_parent()).fetch()
     if not user:
         new_user_data = User_data(parent=root_parent())
@@ -42,7 +43,7 @@ class LoginPage(webapp2.RequestHandler):
             'logout_url': users.create_logout_url(self.request.uri),
         }
         if user:
-            check_in_Database(user)
+            add_to_Database(user)
             data['user_data'] = User_data.query(User_data.user == user, ancestor=root_parent()).fetch()[0]
             template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
         elif not user:
@@ -84,11 +85,6 @@ class PlayerPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render())
 
-
-    def post(self):
-        pass
-
-
 # class PlayerPage(webapp2.RequestHandler):
 #     def get(self):
 #         template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
@@ -99,4 +95,5 @@ app = webapp2.WSGIApplication([
     ('/', LoginPage),
     ('/host', HostPage),
     ('/player', PlayerPage),
+    ('/newgamestate', AddGameState)
 ], debug=True)

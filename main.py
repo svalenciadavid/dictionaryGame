@@ -24,29 +24,6 @@ def add_to_Database(current_user):
         new_user_data.wins = 0
         new_user_data.put()
 
-
-class LoginPage(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user()
-        data = {
-            'user': user,
-            'login_url': users.create_login_url(self.request.uri),
-            'logout_url': users.create_logout_url(self.request.uri),
-        }
-        if user:
-            add_to_Database(user)
-            data['user_data'] = User_data.query(User_data.user == user, ancestor=root_parent()).fetch()[0]
-            template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
-        elif not user:
-            template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
-        self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render(data))
-        word_json = getRandomWords()
-        while "results" not in word_json or "definition" not in word_json["results"][0]:
-            word_json = getRandomWords()
-
-
-# API stuff- Fantah put under game page handler
 def getRandomWords():
     headers = {"X-Mashape-Key": api_key.rapidapi_key,
         "Accept": "application/json"}
@@ -56,6 +33,31 @@ def getRandomWords():
         headers=headers).content
     randomwords_json = json.loads(result)
     return randomwords_json
+
+
+class LoginPage(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        randomwords_json = getRandomWords()
+        while ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
+            randomwords_json= getRandomWords()
+        data = {
+            'user': user,
+            'login_url': users.create_login_url(self.request.uri),
+            'logout_url': users.create_logout_url(self.request.uri),
+            'words': randomwords_json,
+        }
+        if user:
+            add_to_Database(user)
+            data['user_data'] = User_data.query(User_data.user == user, ancestor=root_parent()).fetch()[0]
+            template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
+        elif not user:
+            template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render(data))
+
+
+# API stuff- Fantah put under game page handler
 
 
 

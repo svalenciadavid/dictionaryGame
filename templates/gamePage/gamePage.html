@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+    <h1> Current players</h1>
+    <table>
+      <tr>
+        <th>Player Name</th>
+        <th>Score</th>
+      </tr>
+      {% for stats in Player %}
+      <tr>
+        <td>{{Player.name}}</td>
+        <td>{{Player.score}}</td>
+      </tr>
+    </table>
+  <body>
+
+  </body>
+</html>

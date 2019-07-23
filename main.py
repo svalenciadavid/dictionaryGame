@@ -60,12 +60,13 @@ class LoginPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         # self.response.write(template.render(data))
         index_template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
-        if ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
-            values = {
-                'words': getRandomWords(),
-                }
-            self.response.write(index_template.render(values))
-
+        randomwords_json = getRandomWords()
+        while ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
+            randomwords_json= getRandomWords()
+        values = {
+            'words': randomwords_json,
+            }
+        self.response.write(index_template.render(values))
         # while "results" not in word_json or "definition" not in word_json["results"][0]:
         #     word_json = getRandomWords()
         #

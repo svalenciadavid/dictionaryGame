@@ -7,6 +7,8 @@ class User_data(ndb.Model):
     user = ndb.UserProperty()
     name = ndb.StringProperty()
     wins = ndb.IntegerProperty()
+    role = ndb.StringProperty()
+
 
 
 #games

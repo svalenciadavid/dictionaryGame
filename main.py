@@ -49,7 +49,7 @@ class LoginPage(webapp2.RequestHandler):
         elif not user:
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render(data))
+        self.response.write(template.render(data))    
         word_json = getRandomWords()
         while "results" not in word_json or "definition" not in word_json["results"][0]:
             word_json = getRandomWords()

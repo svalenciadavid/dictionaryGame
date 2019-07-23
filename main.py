@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
 import data_classes
 import json
+import api_key
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -37,7 +38,7 @@ class LoginPage(webapp2.RequestHandler):
 
 # API stuff- Fantah put under game page handler
 def getRandomWords():
-    headers = {"X-Mashape-Key": "9a227e9a3fmshf2acd8cd4c36bdep171891jsn85aad3ecccee",
+    headers = {"X-Mashape-Key": api_key.rapidapi_key,
         "Accept": "application/json"}
     result = urlfetch.fetch(
         url = "https://wordsapiv1.p.rapidapi.com/words/?random=true" ,

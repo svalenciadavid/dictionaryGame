@@ -16,19 +16,17 @@
         <h5>Start the game once all players are present.</h5>
       </div>
     <div>
-      <form>
-        <input type="text">
-        Game ID:<input type="text">
-        <a href="player" class="btn btn-lg btn-default">Join Game!</a>
-      </form>
+      <form class="" action="/player?" method="get">
+        Game ID:<input type="text" name="gameID" value="">
+        <input type="submit" name="" value="Join Game!" class="btn btn-lg btn-default">
+    </form>
     </div>
         <!-- <a href=''
         <button id="say">Start Game!</button> -->
         <div>
           <form class="" action="/newgamestate" method="post">
-            <input type="submit" name="" value="Create Game!">
+            <input type="submit" name="" class="btn btn-lg btn-default" value="Create Game!">
           </form>
-        <a href="host" class="btn btn-lg btn-default">Create Game!</a>
 
     </div>
     <a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a>

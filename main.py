@@ -46,10 +46,14 @@ def getRandomWords():
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        randomwords_json = getRandomWords()
+        while ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
+            randomwords_json= getRandomWords()
         data = {
             'user': user,
             'login_url': users.create_login_url(self.request.uri),
             'logout_url': users.create_logout_url(self.request.uri),
+            'words': randomwords_json,
         }
         if user:
             check_in_Database(user)
@@ -59,14 +63,8 @@ class LoginPage(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
         self.response.headers['Content-Type'] = 'text/html'
         # self.response.write(template.render(data))
-        index_template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
-        randomwords_json = getRandomWords()
-        while ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
-            randomwords_json= getRandomWords()
-        values = {
-            'words': randomwords_json,
-            }
-        self.response.write(index_template.render(values))
+        #index_template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
+        self.response.write(template.render(data))
         # while "results" not in word_json or "definition" not in word_json["results"][0]:
         #     word_json = getRandomWords()
         #

@@ -17,5 +17,7 @@ class Game_state(ndb.Model):
 
 class Players(ndb.Model):
     name = ndb.StringProperty()
+    email = ndb.StringProperty()
     score = ndb.IntegerProperty(default = 0)
     gameKey = ndb.KeyProperty()
+    isMaster = ndb.BooleanProperty()

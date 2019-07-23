@@ -69,16 +69,18 @@ class AddGameState(webapp2.RequestHandler):
         new_game_state.definition = "a fooer"
         new_game_state.fake_definition = ""
         gameKey = new_game_state.put()
-        link_player_game(users.get_current_user(), gameKey.urlsafe())
+        link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
         self.redirect("/player"+"?gameID="+gameKey.urlsafe())
         # Link Player to the game # ID
-def link_player_game(current_user,gameID):
+def link_player_game(current_user,gameID,isMaster = False):
     #We assume that the player is logged in and search for the user in the user_data data table,
     #This will allow us to acess that player's name
     player = User_data.query(User_data.user == current_user, ancestor=root_parent()).fetch()[0]
     new_player = Players(parent=root_parent())
     new_player.name = player.name
+    new_player.email = player.user.email()
     new_player.gameKey = ndb.Key(urlsafe = gameID)
+    new_player.isMaster = isMaster
     new_player.put()
 # class HostPage(webapp2.RequestHandler):
 #     def get(self):
@@ -95,9 +97,14 @@ def link_player_game(current_user,gameID):
 
 class PlayerPage(webapp2.RequestHandler):
     def get(self):
-        template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
+        currentPlayer = Players.query(Players.email == users.get_current_user().email()).fetch()
+        data = {
+        "players" : Players.query().fetch()[0]
+        }
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
+        #template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render())
+        self.response.write(template.render(data))
 
 app = webapp2.WSGIApplication([
     ('/', LoginPage),

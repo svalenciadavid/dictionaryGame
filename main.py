@@ -3,8 +3,9 @@ import jinja2
 import webapp2
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import urlfetch
 import data_classes
-#import json
+import json
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -27,6 +28,27 @@ class LoginPage(webapp2.RequestHandler):
         }
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
+        word_json = getRandomWords()
+        while "results" not in word_json or "definition" not in word_json["results"][0]:
+            word_json = getRandomWords()
+
+        print word_json
+
+
+# API stuff- Fantah put under game page handler
+def getRandomWords():
+    headers = {"X-Mashape-Key": "9a227e9a3fmshf2acd8cd4c36bdep171891jsn85aad3ecccee",
+        "Accept": "application/json"}
+    result = urlfetch.fetch(
+        url = "https://wordsapiv1.p.rapidapi.com/words/?random=true" ,
+        # url='https://wordsapiv1.p.rapidapi.com/words/?random=true',
+        headers=headers).content
+    randomwords_json = json.loads(result)
+    return randomwords_json
+
+
+
+    #self.response.write(result.content) when responding to client
 
 
 # class PlayerPage(webapp2.RequestHandler):

@@ -33,16 +33,17 @@ def check_in_Database(current_user):
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        data = {
+            'user': user,
+            'login_url': users.create_login_url(self.request.uri),
+            'logout_url': users.create_logout_url(self.request.uri),
+        }
         if user:
             check_in_Database(user)
+            data['user_data'] = User_data.query(User_data.user == user, ancestor=root_parent()).fetch()[0]
             template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
         elif not user:
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
-        data = {
-          'user': user,
-          'login_url': users.create_login_url(self.request.uri),
-          'logout_url': users.create_logout_url(self.request.uri),
-        }
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
 

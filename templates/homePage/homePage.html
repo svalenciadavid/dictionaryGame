@@ -1,6 +1,6 @@
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -9,7 +9,24 @@
     <title></title>
   </head>
   <body>
-    <h1>User is: {{user.email()}}</h1>
+    <h3>Welcome, {{user.email()}}</h3>
+    <div>
+        <h5>Start the game once all players are present.</h5>
+      <div>
+        <!-- <a href=''
+        <button id="say">Start Game!</button> -->
+        <a href="HostPage" class="btn btn-lg btn-default">Start Game!</a>
+      </div>
+    </div>
     <a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a>
+  </body>
+</html>
+
+
+<!--This is for Bootstrap Coverpage -->
+<link rel = "stylesheet" href = "/css/homePage.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   </body>
 </html>

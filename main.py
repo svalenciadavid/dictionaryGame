@@ -6,6 +6,11 @@ from google.appengine.ext import ndb
 import data_classes
 #import json
 
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -22,19 +27,16 @@ class LoginPage(webapp2.RequestHandler):
         }
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
-#class HomePage(webapp2.RequestHandler):
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'],
-    autoescape=True)
-#def get_random_words(num):
-    #random_url = 'https://wordsapiv1.p.mashape.com/words?random=true'
-    #random_resp = urlfetch.Fetch(random_url).content
-    #return json.loads(random_resp)
+
+
+# class PlayerPage(webapp2.RequestHandler):
+#     def get(self):
+#         template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
+#         self.response.headers['Content-Type'] = 'text/html'
+#         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
-    #('/home', HomePage),
     #('/host', HostPage),
     #('/player', PlayerPage)
 ], debug=True)

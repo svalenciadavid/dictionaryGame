@@ -5,6 +5,9 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from data_classes import *
 #import json
+from google.appengine.api import urlfetch
+import json
+import api_key
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -46,6 +49,41 @@ class LoginPage(webapp2.RequestHandler):
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
+        word_json = getRandomWords()
+        while "results" not in word_json or "definition" not in word_json["results"][0]:
+            word_json = getRandomWords()
+
+        print word_json
+
+
+# API stuff- Fantah put under game page handler
+def getRandomWords():
+    headers = {"X-Mashape-Key": api_key.rapidapi_key,
+        "Accept": "application/json"}
+    result = urlfetch.fetch(
+        url = "https://wordsapiv1.p.rapidapi.com/words/?random=true" ,
+        # url='https://wordsapiv1.p.rapidapi.com/words/?random=true',
+        headers=headers).content
+    randomwords_json = json.loads(result)
+    return randomwords_json
+
+
+
+    #self.response.write(result.content) when responding to client
+
+
+class HostPage(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render())
+
+class PlayerPage(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render())
+
 
     def post(self):
         pass
@@ -59,7 +97,6 @@ class LoginPage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
-    #('/addUser',addUser),
-    #('/host', HostPage),
-    #('/player', PlayerPage)
+    ('/host', HostPage),
+    ('/player', PlayerPage),
 ], debug=True)

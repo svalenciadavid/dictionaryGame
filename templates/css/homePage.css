@@ -39,6 +39,7 @@ body {
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
+
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
   display: table;
@@ -88,19 +89,19 @@ body {
   padding: 10px 20px;
   font-weight: bold;
 }
-html {
+
+.bg {
   /* The image*/
-  background: url('https://i.giphy.com/media/WoWm8YzFQJg5i/giphy.webp') no-repeat center center fixed;
-      height: 100vh;
-      padding:0;
-      margin:0;
+  background-image: url("http://facts4.fun/wp-content/uploads/2018/01/words.jpg");
+  /* url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg"); */
+  /* opacity: .5; */
   /* height */
-
-
+  height: 100%;
+ /* linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent), */
   /* Scale-Center */
-  /* background-position: center;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: cover; */
+  background-size: cover;
 }
 /*
  * Affix and center
@@ -118,4 +119,9 @@ html {
   }
 
 }
-s
+#allText{
+  position: fixed;
+  top: 0;
+  right: 35%;
+  color: white;
+}

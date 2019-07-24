@@ -77,16 +77,18 @@ def link_player_game(current_user,gameID,isMaster = False):
 
 class AddGameState(webapp2.RequestHandler):
     def post(self):
+        #Randomizing/getting words
         randomwords_json = getRandomWords()
-        generated_word = ""
-        generated_def = ""
         while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
             randomwords_json= getRandomWords()
-        for letter in randomwords_json["word"]:
-            generated_word+= ""
+        generated_word = randomwords_json["word"]
+
+        generated_def = randomwords_json["results"][0]["definition"]
+
+        #Instantiating state
         new_game_state = Game_state(parent=root_parent())
         new_game_state.word = generated_word
-        new_game_state.definition = "a fooer"
+        new_game_state.definition = generated_def
         new_game_state.fake_definition = ""
         gameKey = new_game_state.put()
         link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
@@ -129,16 +131,22 @@ class PlayerPage(webapp2.RequestHandler):
 
         #get all players from the game by their game key -> LeaderBoard Purposes
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent())
+        currentGame = gameKey.get()
         # We update our data dictionary with these values
+        #currentGame = Game_state.query( Game_state.id == gameKey,ancestor=root_parent()).fetch()[0]
+        print ("WOMBO", currentGame.word)
         data = {
         "players" : players,
-        "currentPlayer" : currentPlayer
+        "currentPlayer" : currentPlayer,
+        "word" : currentGame.word
         }
-        
-        # Now it's time to determine this player's role to display the correct html page
+                # Now it's time to determine this player's role to display the correct html page
         if currentPlayer.isMaster == True:
+            data["definition"]= currentGame.definition
+            data["fake_definition"]= currentGame.fake_definition
             template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
         elif currentPlayer.isMaster == False:
+            data["fake_definition"]= currentGame.fake_definition
             template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
         # Finally we render the HTML page
         self.response.headers['Content-Type'] = 'text/html'

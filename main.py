@@ -38,7 +38,7 @@ class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         randomwords_json = getRandomWords()
-        while ("results" not in randomwords_json or "definition" not in randomwords_json["results"][0]):
+        while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and "" in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
             randomwords_json= getRandomWords()
         data = {
             'user': user,

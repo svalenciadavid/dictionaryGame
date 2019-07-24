@@ -79,17 +79,16 @@ class AddGameState(webapp2.RequestHandler):
     def post(self):
         #Randomizing/getting words
         randomwords_json = getRandomWords()
-        generated_word = ""
-        generated_def = ""
         while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
             randomwords_json= getRandomWords()
-        for letter in randomwords_json["word"]:
-            generated_word+= letter
-        
+        generated_word = randomwords_json["word"]
+
+        generated_def = randomwords_json["results"][0]["definition"]
+
         #Instantiating state
         new_game_state = Game_state(parent=root_parent())
         new_game_state.word = generated_word
-        new_game_state.definition = "a fooer"
+        new_game_state.definition = generated_def
         new_game_state.fake_definition = ""
         gameKey = new_game_state.put()
         link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)

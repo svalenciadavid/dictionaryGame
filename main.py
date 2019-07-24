@@ -119,18 +119,22 @@ class PlayerPage(webapp2.RequestHandler):
             return
         try:
             #Then we try to get the current logged in player by their current game and through their email as their identifier
-            currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
         except:
-            #If it doesn't exist then we assume this is a new player going in the game
-            #So we will add them to the database   isMaster = False by default
-            link_player_game(users.get_current_user(), url)
-            #Now we try to get the Player again-- let's assume this works since we just added them above
-            currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+            try:
+                #If it doesn't exist then we assume this is a new player going in the game
+                #So we will add them to the database   isMaster = False by default
+                link_player_game(users.get_current_user(), url)
+                #Now we try to get the Player again-- let's assume this works since we just added them above
+                currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+            except:
+                print("Something went very very wrong")
 
         # Now let's Dance!
 
         #get all players from the game by their game key -> LeaderBoard Purposes
-        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent())
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
+        print(players)
         currentGame = gameKey.get()
         # We update our data dictionary with these values
         #currentGame = Game_state.query( Game_state.id == gameKey,ancestor=root_parent()).fetch()[0]

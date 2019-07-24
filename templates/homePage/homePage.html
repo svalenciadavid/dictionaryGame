@@ -10,6 +10,7 @@
   </head>
   <body>
     <div class="bg"></div>
+    <div id="allText">
     <h3>Welcome, {{user_data.name}}</h3>
     <h3>Wins: {{user_data.wins}}</h3>
     <div>
@@ -26,10 +27,12 @@
           <form class="" action="/newgamestate" method="post">
             <input type="submit" name="" class="btn btn-lg btn-default" value="Create Game!">
           </form>
+          <br>
     </div>
   <div id="logoutButton"><a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a></div>
+  </div>
 <!--This is for Bootstrap Coverpage -->
-<link rel = "stylesheet" href = "/css/login.css">
+<link rel = "stylesheet" href = "/css/homePage.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>

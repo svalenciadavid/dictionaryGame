@@ -80,7 +80,7 @@ class AddGameState(webapp2.RequestHandler):
         generated_def = ""
         while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
             randomwords_json= getRandomWords()
-        for (letter in randomwords_json["word"])
+        for letter in randomwords_json["word"]:
             generated_word+= ""
         new_game_state = Game_state(parent=root_parent())
         new_game_state.word = generated_word

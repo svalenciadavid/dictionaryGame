@@ -69,6 +69,7 @@ def link_player_game(current_user,gameID,isMaster = False):
     new_player = Players(parent=root_parent())
     new_player.name = player.name
     new_player.email = player.user.email()
+    # ndb.Key(urlsafe = gameID) Used to create a game key based on the
     new_player.gameKey = ndb.Key(urlsafe = gameID)
     new_player.isMaster = isMaster
     new_player.put()
@@ -99,12 +100,23 @@ class AddGameState(webapp2.RequestHandler):
 
 class PlayerPage(webapp2.RequestHandler):
     def get(self):
-        currentPlayer = Players.query(Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()
+        # We try to get the game key by looking at the urlsafe in the search bar
+        gameKey = ndb.Key(urlsafe = self.request.get('gameID'))
+        #get all players from the game by their game key
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent())
+        #Then we try to get the current logged in player by their current game and through their email as their identifier
+        currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        # We update our data dictionary with these values
         data = {
-        "players" : Players.query(ancestor=root_parent()).fetch()[0]
+        "players" : players,
+        "currentPlayer" : currentPlayer
         }
-        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
-        #template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
+        # Now it's time to determine this player's role to display the correct html page
+        if currentPlayer.isMaster == True:
+            template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
+        elif currentPlayer.isMaster == False:
+            template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
+        # Finally we render the HTML page
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
 

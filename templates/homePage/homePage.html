@@ -13,9 +13,6 @@
     <h3>Welcome, {{user_data.name}}</h3>
     <h3>Wins: {{user_data.wins}}</h3>
     <div>
-        <h5>Start the game once all players are present.</h5>
-      </div>
-    <div>
       <form class="" action="/player?" method="get">
         Game ID:<input type="text" name="gameID" value="">
         <input type="submit" name="" value="Join Game!" class="btn btn-lg btn-default">
@@ -23,13 +20,14 @@
     </div>
         <!-- <a href=''
         <button id="say">Start Game!</button> -->
+        <h1> or </h1>
         <div>
           <form class="" action="/newgamestate" method="post">
             <input type="submit" name="" class="btn btn-lg btn-default" value="Create Game!">
           </form>
 
     </div>
-    <a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a>
+  <div id="logoutButton"><a href="{{logout_url}}" class="btn btn-lg btn-default">Logout</a></div>
 <!--This is for Bootstrap Coverpage -->
 <link rel = "stylesheet" href = "/css/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>

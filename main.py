@@ -34,7 +34,6 @@ def getRandomWords():
     randomwords_json = json.loads(result)
     return randomwords_json
 
-
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()

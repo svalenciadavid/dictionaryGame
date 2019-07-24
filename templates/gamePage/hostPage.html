@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/host.css">
     <title>Host Page</title>
-
   </head>
   <body>
       <h1>current Master: {{currentPlayer.name}}</h1>
@@ -24,6 +23,16 @@
         Enter a Fake Definition:<br> <input type="text" name="fakeDefinition" value=""> <br>
         <input type="submit" name="" value="Use Fake Definition" class="btn btn-lg btn-default">
     </form>
+        <div id="container">
+          <div class="row">
+            <div class ="name">Player</div><div class="score">Score</div>
+          </div>
+          
+{% for player in players %}
+          <div class="row">
+              <div class="name">{{player.name}}</div><div class="score">{{player.score}}</div>
+          </div>
+{% endfor %}
   <link rel = "stylesheet" href = "/css/host.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

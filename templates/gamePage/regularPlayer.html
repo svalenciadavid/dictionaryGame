@@ -18,3 +18,13 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </body>
 </html>
+<div id="container">
+  <div class="row">
+    <div class ="name">Player</div><div class="score">Score</div>
+  </div>
+
+{% for player in players %}
+  <div class="row">
+      <div class="name">{{player.name}}</div><div class="score">{{player.score}}</div>
+  </div>
+{% endfor %}

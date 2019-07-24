@@ -8,9 +8,21 @@
 
   </head>
   <body>
-      <h1>current Master: {{players.name}}</h1>
-      <div><a href="/" class="btn btn-lg btn-default">Leave Game</a></div>
+      <h3>Current Master: {{players.name}}</h3>
       <div id="leaveGameButton"><a href="/" class="btn btn-lg btn-default">Leave Game</a></div>
+
+      <div>
+        <h1>Word: </h1>
+      </div>
+
+      <div id="useOriginalDefinition"><a class="btn btn-lg btn-default">Use Original Definition</a></div>
+      <div>
+        <h1> or </h1>
+      </div>
+      <form id="form" class="" action="" method="get">
+        Enter a Fake Definition:<br> <input type="text" name="fakeDefinition" value=""> <br>
+        <input type="submit" name="" value="Use Fake Definition" class="btn btn-lg btn-default">
+    </form>
   <link rel = "stylesheet" href = "/css/host.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

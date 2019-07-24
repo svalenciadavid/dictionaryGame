@@ -45,10 +45,12 @@ class LoginPage(webapp2.RequestHandler):
             'login_url': users.create_login_url(self.request.uri),
             'logout_url': users.create_logout_url(self.request.uri),
             'words': randomwords_json,
+            'error' : ""
         }
         if user:
             add_to_Database(user)
             data['user_data'] = User_data.query(User_data.user == user, ancestor=root_parent()).fetch()[0]
+            data['error'] = self.request.get('error')
             template = JINJA_ENVIRONMENT.get_template('templates/homePage/homePage.html')
         elif not user:
             template = JINJA_ENVIRONMENT.get_template('templates/loginPage/login.html')
@@ -100,16 +102,33 @@ class AddGameState(webapp2.RequestHandler):
 class PlayerPage(webapp2.RequestHandler):
     def get(self):
         # We try to get the game key by looking at the urlsafe in the search bar
-        gameKey = ndb.Key(urlsafe = self.request.get('gameID'))
-        #get all players from the game by their game key
+        try:
+            url = self.request.get('gameID')
+            gameKey = ndb.Key(urlsafe = url)
+        except:
+            # The redirect doesn't end the function so return will
+            self.redirect('/?error="That is not a valid Key!!"')
+            return
+        try:
+            #Then we try to get the current logged in player by their current game and through their email as their identifier
+            currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        except:
+            #If it doesn't exist then we assume this is a new player going in the game
+            #So we will add them to the database   isMaster = False by default
+            link_player_game(users.get_current_user(), url)
+            #Now we try to get the Player again-- let's assume this works since we just added them above
+            currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+
+        # Now let's Dance!
+
+        #get all players from the game by their game key -> LeaderBoard Purposes
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent())
-        #Then we try to get the current logged in player by their current game and through their email as their identifier
-        currentPlayer = Players.query(Players.gameKey == gameKey and Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
         # We update our data dictionary with these values
         data = {
         "players" : players,
         "currentPlayer" : currentPlayer
         }
+        
         # Now it's time to determine this player's role to display the correct html page
         if currentPlayer.isMaster == True:
             template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')

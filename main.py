@@ -102,7 +102,7 @@ class PlayerPage(webapp2.RequestHandler):
         data = {
         "players" : Players.query().fetch()[0]
         }
-        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
         #template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))

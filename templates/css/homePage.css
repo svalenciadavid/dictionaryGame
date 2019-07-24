@@ -88,17 +88,19 @@ body {
   padding: 10px 20px;
   font-weight: bold;
 }
-.bg {
+html {
   /* The image*/
-  background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg"); */
-
+  background: url('https://i.giphy.com/media/WoWm8YzFQJg5i/giphy.webp') no-repeat center center fixed;
+      height: 100vh;
+      padding:0;
+      margin:0;
   /* height */
-  height: 50%;
+
 
   /* Scale-Center */
-  background-position: center;
+  /* background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 /*
  * Affix and center

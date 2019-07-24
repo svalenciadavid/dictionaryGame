@@ -95,16 +95,30 @@ body {
 }
 .bg {
   /* The image*/
-  background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg");
-
+  background: linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent),url("https://www.rd.com/wp-content/uploads/2017/09/This-Is-How-Dictionary-Editors-Prank-Each-other-392723320-Castleski-1024x683.jpg");
+  /* url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg"); */
+  /* opacity: .5; */
   /* height */
-  height: 25%;
+  height: 115%;
+ /* linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent), */
+  /* Scale-Center */
+  /* background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+.inner_cover {
+  color: black;
+}
+/* .bottombg  {
+  background-image: linear-gradient(white, gray);
+  /* height */
+  /* height: 25%; */
 
   /* Scale-Center */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+  /* background-position: center; */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+/* } */
 /*
  * Affix and center
  */

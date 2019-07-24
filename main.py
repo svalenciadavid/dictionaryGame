@@ -62,18 +62,6 @@ class LoginPage(webapp2.RequestHandler):
 
 
     #self.response.write(result.content) when responding to client
-
-class AddGameState(webapp2.RequestHandler):
-    def post(self):
-        # New Game State Created
-        new_game_state = Game_state(parent=root_parent())
-        new_game_state.word = "foo"
-        new_game_state.definition = "a fooer"
-        new_game_state.fake_definition = ""
-        gameKey = new_game_state.put()
-        link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
-        self.redirect("/player"+"?gameID="+gameKey.urlsafe())
-        # Link Player to the game # ID
 def link_player_game(current_user,gameID,isMaster = False):
     #We assume that the player is logged in and search for the user in the user_data data table,
     #This will allow us to acess that player's name
@@ -84,6 +72,18 @@ def link_player_game(current_user,gameID,isMaster = False):
     new_player.gameKey = ndb.Key(urlsafe = gameID)
     new_player.isMaster = isMaster
     new_player.put()
+
+class AddGameState(webapp2.RequestHandler):
+    def post(self):
+        # New Game State Created
+        new_game_state = Game_state(parent=root_parent())
+        new_game_state.word = "foo"
+        new_game_state.definition = "a fooer"
+        new_game_state.fake_definition = ""
+        gameKey = new_game_state.put()
+        link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
+        self.redirect("/player?gameID="+gameKey.urlsafe())
+        # Link Player to the game # ID
 # class HostPage(webapp2.RequestHandler):
 #     def get(self):
 #         self.request.get("gameID")
@@ -99,9 +99,9 @@ def link_player_game(current_user,gameID,isMaster = False):
 
 class PlayerPage(webapp2.RequestHandler):
     def get(self):
-        currentPlayer = Players.query(Players.email == users.get_current_user().email()).fetch()
+        currentPlayer = Players.query(Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()
         data = {
-        "players" : Players.query().fetch()[0]
+        "players" : Players.query(ancestor=root_parent()).fetch()[0]
         }
         template = JINJA_ENVIRONMENT.get_template('templates/gamePage/hostPage.html')
         #template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')

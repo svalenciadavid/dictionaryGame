@@ -106,6 +106,51 @@ class AddGameState(webapp2.RequestHandler):
 #         template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
 #         self.response.headers['Content-Type'] = 'text/html'
 #         self.response.write(template.render())
+class ajax_refresh(webapp2.RequestHandler):
+    def get(self):
+        try:
+            url = self.request.get('gameID')
+            gameKey = ndb.Key(urlsafe = url)
+        except:
+            # The redirect doesn't end the function so return will
+            self.redirect('/?error="That is not a valid Key!!"')
+            return
+        try:
+            #Then we try to get the current logged in player by their current game and through their email as their identifier
+            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        except:
+            #If it doesn't exist then we assume this is a new player going in the game
+            #So we will add them to the database   isMaster = False by default
+            link_player_game(users.get_current_user(), url)
+            #Now we try to get the Player again-- let's assume this works since we just added them above
+            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+
+        # Now let's Dance!
+
+        #get all players from the game by their game key -> LeaderBoard Purposes
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
+        currentGame = gameKey.get()
+        user = users.get_current_user()
+        for player in players:
+            if player.isDone:
+                pass
+            elif player.isDone == False:
+                return
+        #UPDATE THE CURRENT Game
+        randomwords_json = getRandomWords()
+        while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
+            randomwords_json= getRandomWords()
+        generated_word = randomwords_json["word"]
+
+        generated_def = randomwords_json["results"][0]["definition"]
+        currentGame.word = generated_word
+        currentGame.definition = generated_def
+        currentGame.fake_definition = ""
+        currentGame.put()
+        self.redirect('/host?gameID='+url)
+
+
+
 class get_current_definiton(webapp2.RequestHandler):
     def get(self):
         # We try to get the game key by looking at the urlsafe in the search bar
@@ -132,6 +177,7 @@ class get_current_definiton(webapp2.RequestHandler):
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentGame = gameKey.get()
         user = users.get_current_user()
+
         if user is None:
             # No user is logged in, so don't return any value.
             self.response.status = 401
@@ -140,7 +186,7 @@ class get_current_definiton(webapp2.RequestHandler):
         user_word = currentGame.word
         # build a dictionary that contains the data that we want to return.
         data = {'fake_definition': user_definition,
-                'word':user_word }
+                'word' : user_word }
         # Note the different content type.
         self.response.headers['Content-Type'] = 'application/json'
         # Turn data dict into a json string and write it to the response
@@ -196,18 +242,25 @@ class PlayerPage(webapp2.RequestHandler):
         url = self.request.get('gameID')
         gameKey = ndb.Key(urlsafe = url)
         currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        currentGame = gameKey.get()
         if currentPlayer.isMaster == True:
-            currentGame = gameKey.get()
             currentGame.fake_definition = self.request.get("fakeDefinition")
             currentGame.put()
+            currentPlayer.isDone = True
             self.redirect('/standBy?gameID='+url)
         elif currentPlayer.isMaster == False:
             #We try to get the answer to the # QUESTION:
             answer = self.request.get("check")
             if answer == "real":
-                currentPlayer.score = currentPlayer.score+1
+                if currentGame.definition == currentGame.fake_definition:
+                    currentPlayer.score = currentPlayer.score+1
+                else:
+                    currentPlayer.score = currentPlayer.score+0
             elif answer == "fake":
-                currentPlayer.score = currentPlayer.score+0
+                if currentGame.definition == currentGame.fake_definition:
+                    currentPlayer.score = currentPlayer.score+0
+                else:
+                    currentPlayer.score = currentPlayer.score+1
             currentPlayer.isDone = True
             currentPlayer.put()
             self.redirect('/player?gameID='+url)
@@ -234,5 +287,6 @@ app = webapp2.WSGIApplication([
     ('/newgamestate', AddGameState),
     ('/standBy', standByPage),
     ('/ajax/get_def', get_current_definiton),
+    ('/ajax/refresh', ajax_refresh),
     ('/learnmore', LearnMore),
 ], debug=True)

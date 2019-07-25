@@ -100,7 +100,7 @@ body {
   /* url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg"); */
   /* opacity: .5; */
   /* height */
-  height: 115%;
+  height: 100%;
  /* linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent), */
   /* Scale-Center */
   background-position: center;
@@ -108,16 +108,39 @@ body {
   background-size: cover;
 }
 
+#description{
+  position: fixed;
+  top: 20%;
+  left: 0;
+  width: 35%
+}
+
+#welcome{
+  position: fixed;
+  top: 5%;
+  left: 0;
+  width: 35%
+}
+
+#playNow{
+  position: fixed;
+  top: 45%;
+  left: 0;
+  width: 35%
+}
+
 #wordOfTheDay{
   position: fixed;
-  bottom: 10%;
+  bottom: 30%;
   left: 0;
+  width: 35%;
 }
 
 #defOfTheDay{
   position: fixed;
-  bottom: 0;
+  bottom: 15%;
   left: 0;
+  width: 35%;
 }
 
 .inner_cover {

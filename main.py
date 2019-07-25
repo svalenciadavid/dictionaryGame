@@ -192,12 +192,24 @@ class PlayerPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
     def post(self):
+        ## Getting key and current player
         url = self.request.get('gameID')
         gameKey = ndb.Key(urlsafe = url)
-        currentGame = gameKey.get()
-        currentGame.fake_definition = self.request.get("fakeDefinition")
-        currentGame.put()
-        self.redirect('/player?gameID='+url)
+        currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        if currentPlayer.isMaster == True:
+            currentGame = gameKey.get()
+            currentGame.fake_definition = self.request.get("fakeDefinition")
+            currentGame.put()
+            self.redirect('/standBy?gameID='+url)
+        elif currentPlayer.isMaster == False:
+            #We try to get the answer to the # QUESTION:
+            answer = self.request.get("check")
+            if answer == "real":
+                currentPlayer.score = currentPlayer.score+1
+            elif answer == "fake":
+                currentPlayer.score = currentPlayer.score+0
+            currentPlayer.put()
+            self.redirect('/player?gameID='+url)
 
 class standByPage(webapp2.RequestHandler):
     def get(self):

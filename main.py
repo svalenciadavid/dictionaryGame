@@ -215,7 +215,7 @@ class PlayerPage(webapp2.RequestHandler):
 class standByPage(webapp2.RequestHandler):
     def get(self):
         print self.request.get("fakeDefinition")
-        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/standBy.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render())
     def post(self):

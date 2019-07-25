@@ -16,12 +16,15 @@
         <h1>Word: {{word}} </h1>
         <h1>Definiton: {{definition}} </h1>
       </div>
-
-      <div id="useOriginalDefinition"><a class="btn btn-lg btn-default">Use Original Definition</a></div>
+      <form class="" method="post">
+        <input type="hidden" name="fakeDefinition" value="{{definition}}">
+        <input type="submit" name="" value="Use Original Definition" class="btn btn-lg btn-default">
+        <!-- <div id="useOriginalDefinition"><a class="btn btn-lg btn-default">Use Original Definition</a></div> -->
+      </form>
       <div>
         <h1> or </h1>
       </div>
-      <form id="form" class="" action="" method="get">
+      <form id="form" class="" method="post">
         Enter a Fake Definition:<br> <input type="text" name="fakeDefinition" value=""> <br>
         <input type="submit" name="" value="Use Fake Definition" class="btn btn-lg btn-default">
     </form>

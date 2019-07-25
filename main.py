@@ -137,7 +137,8 @@ class PlayerPage(webapp2.RequestHandler):
         data = {
         "players" : players,
         "currentPlayer" : currentPlayer,
-        "word" : currentGame.word
+        "word" : currentGame.word,
+        "url" : url
         }
                 # Now it's time to determine this player's role to display the correct html page
         if currentPlayer.isMaster == True:
@@ -150,10 +151,26 @@ class PlayerPage(webapp2.RequestHandler):
         # Finally we render the HTML page
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
+    def post(self):
+        url = self.request.get('gameID')
+        gameKey = ndb.Key(urlsafe = url)
+        currentGame = gameKey.get()
+        currentGame.fake_definition = self.request.get("fakeDefinition")
+        currentGame.put()
+        self.redirect('/standBy?gameID='+url)
+
+class standByPage(webapp2.RequestHandler):
+    def get(self):
+        print self.request.get("fakeDefinition")
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/standBy.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render())
+    def post(self):
+        pass
 
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
-    #('/host', HostPage),
     ('/player', PlayerPage),
-    ('/newgamestate', AddGameState)
+    ('/newgamestate', AddGameState),
+    ('/standBy', standByPage)
 ], debug=True)

@@ -26,19 +26,20 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <form>
+      <input type="radio" class="real_definition" name = "check" value="real"/><label for= "real_definition">&nbsp;&nbsp;&nbsp;This is the real definition</label><br><br>
+      <input type="radio" class="fake_definition" name = "check" value="fake"><label for= "fake_definition">&nbsp;&nbsp;&nbsp;This is NOT the real definition</label><br>
+      </form>
+      <div id="container">
+        <div class="row">
+          <div class ="name">Player</div><div class="score">Score</div>
+        </div>
+
+      {% for player in players %}
+        <div class="row">
+            <div class="name">{{player.name}}</div><div class="score">{{player.score}}</div>
+        </div>
+      {% endfor %}
+      <script type="text/javascript" src="/js/updatePage.js"></script>
     </body>
 </html>
-<form>
-<input type="radio" class="real_definition" name = "check" value="real"/><label for= "real_definition">&nbsp;&nbsp;&nbsp;This is the real definition</label><br><br>
-<input type="radio" class="fake_definition" name = "check" value="fake"><label for= "fake_definition">&nbsp;&nbsp;&nbsp;This is NOT the real definition</label><br>
-</form>
-<div id="container">
-  <div class="row">
-    <div class ="name">Player</div><div class="score">Score</div>
-  </div>
-
-{% for player in players %}
-  <div class="row">
-      <div class="name">{{player.name}}</div><div class="score">{{player.score}}</div>
-  </div>
-{% endfor %}

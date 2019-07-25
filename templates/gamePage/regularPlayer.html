@@ -6,7 +6,14 @@
     <title>Player Page</title>
   </head>
     <div class="bg"></div>
-  <h3>Current Player: {{players.name}}</h3>
+  <h3>Current Player: {{currentPlayer.name}}</h3>
+  <h3>"Definition": </h3>
+<!--Checks for host player and return the host's name only-->
+  {% for player in players %}
+    {%- if player.isMaster %}
+      <h5>Will you trust {{player.name}}'s definition'?<h5>
+    {% endif %}
+  {% endfor %}
   <div>
     <h1>Word: {{word}} </h1>
   </div>

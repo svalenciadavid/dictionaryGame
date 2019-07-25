@@ -8,8 +8,6 @@
     <div class="bg"></div>
   <h3>Current Player: {{currentPlayer.name}}</h3>
 <!--Checks for host player and return the host's name only-->
-  {% for player in players %}
-    {%- if player.isMaster %}
 
     {% endif %}
   {% endfor %}
@@ -21,7 +19,9 @@
   </div>
   <body>
       <div><a href="/" class="btn btn-lg btn-default">Leave Game</a></div>
-        <h5>Will you trust {{currentPlayer.name}}'s definition'?<h5>
+      {% for player in players %}
+        {%- if player.isMaster %}
+      <h5>Will you trust {{currentPlayer.name}}'s definition'?<h5>
   <link rel = "stylesheet" href = "/css/player.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

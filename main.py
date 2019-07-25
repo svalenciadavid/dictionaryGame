@@ -130,11 +130,10 @@ class PlayerPage(webapp2.RequestHandler):
         # Now let's Dance!
 
         #get all players from the game by their game key -> LeaderBoard Purposes
-        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent())
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentGame = gameKey.get()
         # We update our data dictionary with these values
         #currentGame = Game_state.query( Game_state.id == gameKey,ancestor=root_parent()).fetch()[0]
-        print ("WOMBO", currentGame.word)
         data = {
         "players" : players,
         "currentPlayer" : currentPlayer,

@@ -108,16 +108,39 @@ body {
   background-size: cover;
 }
 
+#description{
+  position: fixed;
+  top: 20%;
+  left: 0;
+  width: 35%
+}
+
+#welcome{
+  position: fixed;
+  top: 5%;
+  left: 0;
+  width: 35%
+}
+
+#playNow{
+  position: fixed;
+  top: 45%;
+  left: 0;
+  width: 35%
+}
+
 #wordOfTheDay{
   position: fixed;
-  bottom: 20%;
+  bottom: 30%;
   left: 0;
+  width: 35%;
 }
 
 #defOfTheDay{
   position: fixed;
-  bottom: 10%;
+  bottom: 15%;
   left: 0;
+  width: 35%;
 }
 
 .inner_cover {

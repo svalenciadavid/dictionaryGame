@@ -7,12 +7,15 @@
       <div class="bg">
 
     <div class="inner_cover">
-        <h1 class="cover-heading">Welcome to Fictionary!</h1>
+        <div id="welcome">
+        <h1 class="cover-heading">Welcome to Fictionary!</h1></div>
+        <div id="description">
         <p class="lead">Fictionary is an interactive game that you can play with friends! Given a word, the host player will choose to enter either the word's actual definition or one they make up! The other players'
          jobs are to guess if it is the real definition or not, and earn points for the right answer!
        </p>
+     </div>
         <p class="lead">
-          <a href="{{login_url}}" class="btn btn-lg btn-default">Play Now!</a>
+          <div id="playNow"><a href="{{login_url}}" class="btn btn-lg btn-default">Play Now!</a></div>
         </p>
         <!-- <h3> Word of the day: {{words.word}} </h3> -->
         <!-- <h3>Definition: {{words.results[0].definition}}</h3> -->
@@ -20,9 +23,9 @@
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
       <div  id="wordOfTheDay">
-      <h3> Word of the day: {{words.word}} </h3>
+      <h3> Word of the day:    {{words.word}} </h3>
       </div>
-      <div id="defOfTheDay"><h3>Definition: {{words.results[0].definition}}</h3></div>
+      <div id="defOfTheDay"><h3>Definition:    {{words.results[0].definition}}</h3></div>
 
     </div>
 

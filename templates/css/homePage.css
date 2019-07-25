@@ -125,3 +125,13 @@ body {
   right: 35%;
   color: white;
 }
+
+#boxText{
+  color: black;
+}
+
+#logoutButton{
+  position: fixed;
+  top: 0;
+  right: 0;
+}

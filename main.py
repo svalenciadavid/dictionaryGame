@@ -151,9 +151,17 @@ class PlayerPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render(data))
 
+class LearnMore(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/loginPage/learnMore.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render())
+
+
 app = webapp2.WSGIApplication([
     ('/', LoginPage),
     #('/host', HostPage),
     ('/player', PlayerPage),
-    ('/newgamestate', AddGameState)
+    ('/newgamestate', AddGameState),
+    ('/learnmore', LearnMore)
 ], debug=True)

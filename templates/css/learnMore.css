@@ -1,3 +1,10 @@
+#directions{
+  position: fixed;
+  top: 10%;
+  right: 0;
+  width: 20%;
+}
+
 /*
  * Globals
  */
@@ -23,11 +30,20 @@ a:hover {
   border: 1px solid #fff;
 }
 
-#logoutButton{
+#leaveGameButton{
   position: fixed;
-  top: 0;
+  top: 25%;
   left: 0;
 }
+
+#currentMaster{
+  position: fixed;
+  bottom: 0%;
+  right:0%;
+}
+
+
+
 
 /*
  * Base structure
@@ -37,7 +53,6 @@ html,
 body {
   height: 100%;
   background-color: #fff;
-  margin: 0;
 }
 body {
   color: #fff;
@@ -96,70 +111,16 @@ body {
 }
 .bg {
   /* The image*/
-  background-image: linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent),url("https://www.qualtrics.com/blog/wp-content/uploads/2018/08/shutterstock_1068141515.jpg");
-  /* url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg"); */
-  /* opacity: .5; */
+  background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg");
+
   /* height */
-  height: 100%;
- /* linear-gradient(rgba(227, 218, 218, 0.52), rgba(171, 166, 166, 0.73), transparent), */
+  height: 50%;
+
   /* Scale-Center */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-#learnMore{
-  font-size: 18pt;
-}
-
-#description{
-  position: fixed;
-  top: 20%;
-  left: 0;
-  width: 35%
-}
-
-#welcome{
-  position: fixed;
-  top: 5%;
-  left: 0;
-  width: 35%
-}
-
-#playNow{
-  position: fixed;
-  top: 50%;
-  left: 0;
-  width: 35%
-}
-
-#wordOfTheDay{
-  position: fixed;
-  bottom: 30%;
-  left: 0;
-  width: 35%;
-}
-
-#defOfTheDay{
-  position: fixed;
-  bottom: 15%;
-  left: 0;
-  width: 35%;
-}
-
-.inner_cover {
-  color: black;
-}
-/* .bottombg  {
-  background-image: linear-gradient(white, gray);
-  /* height */
-  /* height: 25%; */
-
-  /* Scale-Center */
-  /* background-position: center; */
-  /* background-repeat: no-repeat; */
-  /* background-size: cover; */
-/* } */
 /*
  * Affix and center
  */
@@ -175,4 +136,42 @@ body {
     vertical-align: middle;
   }
 
+}
+.bg {
+  /* The image*/
+  background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg");
+
+  /* height */
+  height: 25%;
+
+  /* Scale-Center */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+#container {
+	width: 600px;
+	height: auto;
+}
+
+.row {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #AFAFAF;
+}
+
+.name {
+	position: relative;
+	display: inline-block;
+	width: 75%;
+	line-height: 45px;
+}
+
+.score {
+	position: relative;
+	display: inline-block;
+	width: 25%;
 }

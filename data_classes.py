@@ -20,3 +20,4 @@ class Players(ndb.Model):
     score = ndb.IntegerProperty(default = 0)
     isMaster = ndb.BooleanProperty()
     gameKey = ndb.KeyProperty()
+    isDone = ndb.BooleanProperty(default = False)

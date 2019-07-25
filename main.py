@@ -89,7 +89,7 @@ class AddGameState(webapp2.RequestHandler):
         new_game_state = Game_state(parent=root_parent())
         new_game_state.word = generated_word
         new_game_state.definition = generated_def
-        new_game_state.fake_definition = ""
+        new_game_state.fake_definition = "rddtrdtr"
         gameKey = new_game_state.put()
         link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
         self.redirect("/player?gameID="+gameKey.urlsafe())
@@ -106,6 +106,44 @@ class AddGameState(webapp2.RequestHandler):
 #         template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
 #         self.response.headers['Content-Type'] = 'text/html'
 #         self.response.write(template.render())
+class get_current_definiton(webapp2.RequestHandler):
+    def get(self):
+        # We try to get the game key by looking at the urlsafe in the search bar
+        try:
+            url = self.request.get('gameID')
+            gameKey = ndb.Key(urlsafe = url)
+        except:
+            # The redirect doesn't end the function so return will
+            self.redirect('/?error="That is not a valid Key!!"')
+            return
+        try:
+            #Then we try to get the current logged in player by their current game and through their email as their identifier
+            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        except:
+            #If it doesn't exist then we assume this is a new player going in the game
+            #So we will add them to the database   isMaster = False by default
+            link_player_game(users.get_current_user(), url)
+            #Now we try to get the Player again-- let's assume this works since we just added them above
+            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+
+        # Now let's Dance!
+
+        #get all players from the game by their game key -> LeaderBoard Purposes
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
+        currentGame = gameKey.get()
+        user = users.get_current_user()
+        if user is None:
+            # No user is logged in, so don't return any value.
+            self.response.status = 401
+            return
+        user_definition = currentGame.fake_definition
+        # build a dictionary that contains the data that we want to return.
+        data = {'fake_definition': user_definition}
+        # Note the different content type.
+        self.response.headers['Content-Type'] = 'application/json'
+        # Turn data dict into a json string and write it to the response
+        self.response.write(json.dumps(data))
+
 
 class PlayerPage(webapp2.RequestHandler):
     def get(self):
@@ -155,5 +193,7 @@ app = webapp2.WSGIApplication([
     ('/', LoginPage),
     #('/host', HostPage),
     ('/player', PlayerPage),
-    ('/newgamestate', AddGameState)
+    ('/newgamestate', AddGameState),
+    ('/ajax/get_def', get_current_definiton)
+
 ], debug=True)

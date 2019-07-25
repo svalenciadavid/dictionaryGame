@@ -8,12 +8,13 @@
     <div class="bg"></div>
   <h3 id="currentPlayer">Current Player: {{currentPlayer.name}}</h3>
 <!--Checks for host player and return the host's name only-->
-
+<div id = "gameID" hidden>{{currentPlayer.gameKey.urlsafe()}}</div>
   <div>
     <h1>Word: {{word}} </h1>
   </div>
   <div>
-    <h1>"Definiton": </h1>
+    <h1>Definiton: </h1>
+    <div id = "definition"></div>
   </div>
   <body>
       <div id="leaveGameButton"><a href="/" class="btn btn-lg btn-default">Leave Game</a></div>
@@ -26,7 +27,8 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    </body>
+    <script type="text/javascript" src="/js/player.js"></script>
+  </body>
 </html>
 <form>
 <input type="radio" class="real_definition" name = "check" value="real"/><label for= "real_definition">&nbsp;&nbsp;&nbsp;This is the real definition</label><br><br>

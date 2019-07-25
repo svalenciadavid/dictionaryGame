@@ -206,6 +206,7 @@ class PlayerPage(webapp2.RequestHandler):
                 currentPlayer.score = currentPlayer.score+1
             elif answer == "fake":
                 currentPlayer.score = currentPlayer.score+0
+            currentPlayer.isDone = True
             currentPlayer.put()
             self.redirect('/player?gameID='+url)
 

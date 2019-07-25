@@ -1,3 +1,10 @@
+#directions{
+  position: fixed;
+  top: 10%;
+  right: 0;
+  width: 20%;
+}
+
 /*
  * Globals
  */
@@ -22,6 +29,20 @@ a:hover {
   background-color: #fff;
   border: 1px solid #fff;
 }
+
+#leaveGameButton{
+  position: fixed;
+  top: 25%;
+  left: 0;
+}
+
+#currentMaster{
+  position: fixed;
+  bottom: 0%;
+  right:0%;
+}
+
+
 
 
 /*
@@ -91,8 +112,9 @@ body {
 .bg {
   /* The image*/
   background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg");
+
   /* height */
-  height: 25%;
+  height: 50%;
 
   /* Scale-Center */
   background-position: center;
@@ -115,22 +137,22 @@ body {
   }
 
 }
-s
+.bg {
+  /* The image*/
+  background-image: url("https://www.linuxfoundation.org/wp-content/uploads/2016/12/lf_background_trees.jpg");
+
+  /* height */
+  height: 25%;
+
+  /* Scale-Center */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
 #container {
 	width: 600px;
 	height: auto;
-}
-
-#leaveGameButton{
-  position: fixed;
-  top: 25%;
-  left: 0;
-}
-
-#currentPlayer{
-  position: fixed;
-  bottom: 0%;
-  right:0%;
 }
 
 .row {
@@ -152,13 +174,4 @@ s
 	position: relative;
 	display: inline-block;
 	width: 25%;
-}
-label {
-    font-size: 18pt;
-    /* padding-right: 100px; */
-}
-input[type=radio] {
-    transform: scale(1.5);
-    margin-right: 100px;
-    padding-right: 100px;
 }

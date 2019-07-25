@@ -137,8 +137,10 @@ class get_current_definiton(webapp2.RequestHandler):
             self.response.status = 401
             return
         user_definition = currentGame.fake_definition
+        user_word = currentGame.word
         # build a dictionary that contains the data that we want to return.
-        data = {'fake_definition': user_definition}
+        data = {'fake_definition': user_definition,
+                'word':user_word }
         # Note the different content type.
         self.response.headers['Content-Type'] = 'application/json'
         # Turn data dict into a json string and write it to the response
@@ -195,12 +197,12 @@ class PlayerPage(webapp2.RequestHandler):
         currentGame = gameKey.get()
         currentGame.fake_definition = self.request.get("fakeDefinition")
         currentGame.put()
-        self.redirect('/standBy?gameID='+url)
+        self.redirect('/player?gameID='+url)
 
 class standByPage(webapp2.RequestHandler):
     def get(self):
         print self.request.get("fakeDefinition")
-        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/standBy.html')
+        template = JINJA_ENVIRONMENT.get_template('templates/gamePage/regularPlayer.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render())
     def post(self):

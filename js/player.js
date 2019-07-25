@@ -1,4 +1,5 @@
 const definition = document.querySelector('#definition')
+const word = document.querySelector('#word')
 const gameID = document.querySelector('#gameID')
 // Start the process of asking the server for the current note once a timer
 // expires.
@@ -20,6 +21,7 @@ function fetchCurrentDef() {
       // Update the div.
       console.log(myJson)
       definition.innerHTML = myJson.fake_definition
+      word.innerHTML = myJson.word
       console.log("ajax call successful")
       // Start the timer again for the next request.
       startTimer()

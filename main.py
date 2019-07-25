@@ -251,16 +251,17 @@ class PlayerPage(webapp2.RequestHandler):
         elif currentPlayer.isMaster == False:
             #We try to get the answer to the # QUESTION:
             answer = self.request.get("check")
-            if answer == "real":
-                if currentGame.definition == currentGame.fake_definition:
-                    currentPlayer.score = currentPlayer.score+1
-                else:
-                    currentPlayer.score = currentPlayer.score+0
-            elif answer == "fake":
-                if currentGame.definition == currentGame.fake_definition:
-                    currentPlayer.score = currentPlayer.score+0
-                else:
-                    currentPlayer.score = currentPlayer.score+1
+            if currentPlayer.isDone == False:
+                if answer == "real":
+                    if currentGame.definition == currentGame.fake_definition:
+                        currentPlayer.score = currentPlayer.score+1
+                    else:
+                        currentPlayer.score = currentPlayer.score+0
+                elif answer == "fake":
+                    if currentGame.definition == currentGame.fake_definition:
+                        currentPlayer.score = currentPlayer.score+0
+                    else:
+                        currentPlayer.score = currentPlayer.score+1
             currentPlayer.isDone = True
             currentPlayer.put()
             self.redirect('/player?gameID='+url)

@@ -142,3 +142,12 @@ s
 	display: inline-block;
 	width: 25%;
 }
+label {
+    font-size: 18pt;
+    /* padding-right: 100px; */
+}
+input[type=checkbox] {
+    transform: scale(1.5);
+    margin-right: 100px;
+    padding-right: 100px;
+}

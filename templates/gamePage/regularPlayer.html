@@ -8,12 +8,13 @@
     <div class="bg"></div>
   <h3 id="currentPlayer">Current Player: {{currentPlayer.name}}</h3>
 <!--Checks for host player and return the host's name only-->
-
+<div id = "gameID" hidden>{{currentPlayer.gameKey.urlsafe()}}</div>
   <div>
     <h1>Word: {{word}} </h1>
   </div>
   <div>
-    <h1>"Definiton": </h1>
+    <h1>Definiton: </h1>
+    <div id = "definition"></div>
   </div>
   <body>
       <div id="leaveGameButton"><a href="/" class="btn btn-lg btn-default">Leave Game</a></div>
@@ -40,6 +41,7 @@
             <div class="name">{{player.name}}</div><div class="score">{{player.score}}</div>
         </div>
       {% endfor %}
-      <script type="text/javascript" src="/js/updatePage.js"></script>
+        <script type="text/javascript" src="/js/player.js"></script>
+      <!-- <script type="text/javascript" src="/js/updatePage.js"></script> -->
     </body>
 </html>

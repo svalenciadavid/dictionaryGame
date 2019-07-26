@@ -93,6 +93,33 @@ class AddGameState(webapp2.RequestHandler):
         gameKey = new_game_state.put()
         link_player_game(users.get_current_user(), gameKey.urlsafe(), isMaster = True)
         self.redirect("/player?gameID="+gameKey.urlsafe())
+
+class updateGameState(webapp2.RequestHandler):
+    def get(self):
+        pass
+    def post(self):
+        url = self.request.get('gameID')
+        gameKey = ndb.Key(urlsafe = url)
+        currentGame = gameKey.get()
+        #UPDATE THE CURRENT Game
+        randomwords_json = getRandomWords()
+        while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
+            randomwords_json= getRandomWords()
+        generated_word = randomwords_json["word"]
+
+        generated_def = randomwords_json["results"][0]["definition"]
+        currentGame.word = generated_word
+        currentGame.definition = generated_def
+        currentGame.fake_definition = ""
+        currentGame.put()
+        ###players
+        #We gotta make all the players notDone again!!
+        # for player in players:
+        #     player.isDone = False
+        #     player.put()
+
+        self.redirect('/player?gameID='+url)
+
         # Link Player to the game # ID
 # class HostPage(webapp2.RequestHandler):
 #     def get(self):
@@ -111,32 +138,24 @@ class ajax_refresh(webapp2.RequestHandler):
         print("RRUUUUUUUUUUUUUUUUUUUUUUUUUUUNGKLNDSLFsdfN/n/n/n/n/n\n\n\n\n\n\n\n")
         url = self.request.get('gameID')
         gameKey = ndb.Key(urlsafe = url)
-        #Then we try to get the current logged in player by their current game and through their email as their identifier
-        currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
         print("RROOOOOOOOOOOOOOOOOOOOOOOOOOON")
         # Now let's Dance!
-
         #get all players from the game by their game key -> LeaderBoard Purposes
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentGame = gameKey.get()
-        user = users.get_current_user()
         print("RROOOOOOOOOOOOOOOOOOOOOOOOOOON",currentPlayer)
+        willRedirect = True
         for player in players:
             if player.isDone:
                 pass
             elif player.isDone == False:
-                return
-        #UPDATE THE CURRENT Game
-        randomwords_json = getRandomWords()
-        while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
-            randomwords_json= getRandomWords()
-        generated_word = randomwords_json["word"]
-
-        generated_def = randomwords_json["results"][0]["definition"]
-        currentGame.word = generated_word
-        currentGame.definition = generated_def
-        currentGame.fake_definition = ""
-        currentGame.put()
+                willRedirect = False
+        retDict = {
+        "willRedirect" : willRedirect
+        }
+        self.response.headers['Content-Type'] = 'application/json'
+        # Turn data dict into a json string and write it to the response
+        self.response.write(json.dumps(retDict))
         #self.response.write()
         # self.redirect('/player?gameID='+url)
 

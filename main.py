@@ -277,10 +277,12 @@ class PlayerPage(webapp2.RequestHandler):
 
 class standByPage(webapp2.RequestHandler):
     def get(self):
+        url = self.request.get('gameID')
         print self.request.get("fakeDefinition")
         template = JINJA_ENVIRONMENT.get_template('templates/gamePage/standBy.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.write(template.render())
+        self.redirect('/player?gameID='+url)
     def post(self):
         pass
 

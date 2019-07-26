@@ -241,6 +241,7 @@ class PlayerPage(webapp2.RequestHandler):
         ## Getting key and current player
         url = self.request.get('gameID')
         gameKey = ndb.Key(urlsafe = url)
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
         currentGame = gameKey.get()
         if currentPlayer.isMaster == True:
@@ -256,14 +257,22 @@ class PlayerPage(webapp2.RequestHandler):
                     if currentGame.definition == currentGame.fake_definition:
                         currentPlayer.score = currentPlayer.score+1
                     else:
-                        currentPlayer.score = currentPlayer.score+0
+                        for player in players:
+                            if player.isMaster:
+                                player.score = player.score+1
                 elif answer == "fake":
                     if currentGame.definition == currentGame.fake_definition:
-                        currentPlayer.score = currentPlayer.score+0
+                        for player in players:
+                            if player.isMaster:
+                                player.score = player.score+1
                     else:
                         currentPlayer.score = currentPlayer.score+1
+
             currentPlayer.isDone = True
             currentPlayer.put()
+            for player in players:
+                if player.isMaster:
+                    player.put()
             self.redirect('/player?gameID='+url)
 
 class standByPage(webapp2.RequestHandler):

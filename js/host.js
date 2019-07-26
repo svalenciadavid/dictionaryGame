@@ -12,6 +12,7 @@ function startTimer() {
 function fetchCurrentDef() {
   console.log("call")
   fetch('/ajax/refresh?gameID=' + gameID.innerHTML)
+  console.log("THIS")
     // .then(function(response) {
     //   console.log(gameID.innerHTML)
     //
@@ -23,7 +24,7 @@ function fetchCurrentDef() {
     //   console.log("ajax call successful")
       // Start the timer again for the next request.
       startTimer()
-    })
+    }//)
 }
 
 if (definition != null) {

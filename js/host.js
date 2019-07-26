@@ -25,16 +25,16 @@ function fetchCurrentDef() {
       // Start the timer again for the next request.
       startTimer()
     }//)
-}
-
-if (definition != null) {
-  // If note_div is null it means that the user is not logged in.  This is
-  // because the jinja template for the '/' handler only renders this div
-  // when the user is logged in.  Querying for a note that does not exist
-  // returns null.
-  console.log("call1")
+    //}
+//
+// if (definition == null) {
+//   // If note_div is null it means that the user is not logged in.  This is
+//   // because the jinja template for the '/' handler only renders this div
+//   // when the user is logged in.  Querying for a note that does not exist
+//   // returns null.
+//   console.log("call1")
   // Start by fetching the current note without any delay.
   fetchCurrentDef()
-} else {
-  console.log(definition)
-}
+// } else {
+//   console.log(definition)
+// }

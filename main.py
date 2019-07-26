@@ -108,29 +108,19 @@ class AddGameState(webapp2.RequestHandler):
 #         self.response.write(template.render())
 class ajax_refresh(webapp2.RequestHandler):
     def get(self):
-        try:
-            url = self.request.get('gameID')
-            gameKey = ndb.Key(urlsafe = url)
-        except:
-            # The redirect doesn't end the function so return will
-            self.redirect('/?error="That is not a valid Key!!"')
-            return
-        try:
-            #Then we try to get the current logged in player by their current game and through their email as their identifier
-            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
-        except:
-            #If it doesn't exist then we assume this is a new player going in the game
-            #So we will add them to the database   isMaster = False by default
-            link_player_game(users.get_current_user(), url)
-            #Now we try to get the Player again-- let's assume this works since we just added them above
-            currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
-
+        print("RRUUUUUUUUUUUUUUUUUUUUUUUUUUUNGKLNDSLFsdfN/n/n/n/n/n\n\n\n\n\n\n\n")
+        url = self.request.get('gameID')
+        gameKey = ndb.Key(urlsafe = url)
+        #Then we try to get the current logged in player by their current game and through their email as their identifier
+        currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+        print("RROOOOOOOOOOOOOOOOOOOOOOOOOOON")
         # Now let's Dance!
 
         #get all players from the game by their game key -> LeaderBoard Purposes
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentGame = gameKey.get()
         user = users.get_current_user()
+        print("RROOOOOOOOOOOOOOOOOOOOOOOOOOON",currentPlayer)
         for player in players:
             if player.isDone:
                 pass
@@ -147,7 +137,8 @@ class ajax_refresh(webapp2.RequestHandler):
         currentGame.definition = generated_def
         currentGame.fake_definition = ""
         currentGame.put()
-        self.redirect('/host?gameID='+url)
+        #self.response.write()
+        # self.redirect('/player?gameID='+url)
 
 
 
@@ -248,6 +239,8 @@ class PlayerPage(webapp2.RequestHandler):
             currentGame.fake_definition = self.request.get("fakeDefinition")
             currentGame.put()
             currentPlayer.isDone = True
+            currentPlayer.put()
+            #self.redirect('/standBy?gameID='+url)
             self.redirect('/standBy?gameID='+url)
         elif currentPlayer.isMaster == False:
             #We try to get the answer to the # QUESTION:
@@ -260,29 +253,35 @@ class PlayerPage(webapp2.RequestHandler):
                         for player in players:
                             if player.isMaster:
                                 player.score = player.score+1
+                                player.put()
                 elif answer == "fake":
                     if currentGame.definition == currentGame.fake_definition:
                         for player in players:
                             if player.isMaster:
                                 player.score = player.score+1
+                                player.put()
                     else:
                         currentPlayer.score = currentPlayer.score+1
 
             currentPlayer.isDone = True
             currentPlayer.put()
-            for player in players:
-                if player.isMaster:
-                    player.put()
             self.redirect('/player?gameID='+url)
 
 class standByPage(webapp2.RequestHandler):
     def get(self):
         url = self.request.get('gameID')
+        gameKey = ndb.Key(urlsafe = url)
+        currentPlayer = Players.query(Players.gameKey == gameKey, Players.email == users.get_current_user().email(),  ancestor=root_parent()).fetch()[0]
+
         print self.request.get("fakeDefinition")
         template = JINJA_ENVIRONMENT.get_template('templates/gamePage/standBy.html')
+        data = {
+        "currentPlayer" : currentPlayer
+
+        }
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render())
-        self.redirect('/player?gameID='+url)
+        self.response.write(template.render(data))
+        #self.redirect('/player?gameID='+url)
     def post(self):
         pass
 

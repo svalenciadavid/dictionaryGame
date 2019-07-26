@@ -13,6 +13,7 @@ function fetchCurrentDef() {
   console.log("call")
   fetch('/ajax/refresh?gameID=' + gameID.innerHTML)
   console.log("THIS")
+  window.location.href = "http://localhost:8080/player?gameID=" + gameID.innerHTML;
     // .then(function(response) {
     //   console.log(gameID.innerHTML)
     //

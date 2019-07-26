@@ -143,7 +143,6 @@ class ajax_refresh(webapp2.RequestHandler):
         #get all players from the game by their game key -> LeaderBoard Purposes
         players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
         currentGame = gameKey.get()
-        print("RROOOOOOOOOOOOOOOOOOOOOOOOOOON",currentPlayer)
         willRedirect = True
         for player in players:
             if player.isDone:

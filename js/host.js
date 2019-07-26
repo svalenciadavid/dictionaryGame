@@ -12,21 +12,23 @@ function startTimer() {
 function fetchCurrentDef() {
   console.log("call")
   fetch('/ajax/refresh?gameID=' + gameID.innerHTML)
-  console.log("THIS")
-  window.location.href = "http://localhost:8080/player?gameID=" + gameID.innerHTML;
-    // .then(function(response) {
-    //   console.log(gameID.innerHTML)
-    //
-    //   return response.json()
-    // })
-    // .then(function (myJson) {
-    //   // Update the div.
-    //   console.log(myJson)
-    //   console.log("ajax call successful")
+    .then(function(response) {
+      return response.json()
+    })
+    .then(function (myJson) {
+      // Update the div.
+      console.log(myJson)
+      console.log("ajax call successful")
+      if (myJson.willRedirect == true){
+        //window.location.href = "http://localhost:8080/player?gameID=" + gameID.innerHTML;
+        console.log("Would have redirected")
+      }
+      else{
       // Start the timer again for the next request.
       startTimer()
-    }//)
-    //}
+    }
+  })
+}
 //
 // if (definition == null) {
 //   // If note_div is null it means that the user is not logged in.  This is

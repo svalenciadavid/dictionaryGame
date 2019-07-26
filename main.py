@@ -38,6 +38,7 @@ class LoginPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         randomwords_json = getRandomWords()
+        #Sometimes doesn't work
         while ((("results" not in randomwords_json or "definition" not in randomwords_json["results"][0] and " " in randomwords_json["word"]))or ( " " in randomwords_json["word"])):
             randomwords_json= getRandomWords()
         data = {
@@ -96,8 +97,6 @@ class AddGameState(webapp2.RequestHandler):
 
 class updateGameState(webapp2.RequestHandler):
     def get(self):
-        pass
-    def post(self):
         url = self.request.get('gameID')
         gameKey = ndb.Key(urlsafe = url)
         currentGame = gameKey.get()
@@ -112,6 +111,11 @@ class updateGameState(webapp2.RequestHandler):
         currentGame.definition = generated_def
         currentGame.fake_definition = ""
         currentGame.put()
+        ###
+        players = Players.query( Players.gameKey ==  gameKey,ancestor=root_parent()).fetch()
+        for player in players:
+            player.isDone = False
+            player.put()
         ###players
         #We gotta make all the players notDone again!!
         # for player in players:
@@ -119,6 +123,8 @@ class updateGameState(webapp2.RequestHandler):
         #     player.put()
 
         self.redirect('/player?gameID='+url)
+    def post(self):
+        pass
 
         # Link Player to the game # ID
 # class HostPage(webapp2.RequestHandler):
@@ -318,4 +324,5 @@ app = webapp2.WSGIApplication([
     ('/ajax/get_def', get_current_definiton),
     ('/ajax/refresh', ajax_refresh),
     ('/learnmore', LearnMore),
+    ('/updateGame',updateGameState),
 ], debug=True)

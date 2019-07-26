@@ -20,8 +20,9 @@ function fetchCurrentDef() {
       console.log(myJson)
       console.log("ajax call successful")
       if (myJson.willRedirect == true){
-        //window.location.href = "http://localhost:8080/player?gameID=" + gameID.innerHTML;
-        console.log("Would have redirected")
+        let redirect = "http://localhost:8080/updateGame?gameID=" + gameID.innerHTML;
+        window.location.href = redirect;
+      //console.log("Would have redirected", redirect)
       }
       else{
       // Start the timer again for the next request.
